@@ -1,0 +1,14 @@
+.CustomerAddForm{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .CeoAttr{
+    min-width: 300px;
+  }
+}
+
+input, select {
+  height: 27px;
+  box-sizing: border-box;
+}

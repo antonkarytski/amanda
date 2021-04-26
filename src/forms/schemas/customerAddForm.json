@@ -1,0 +1,80 @@
+{
+  "name": "customerAdd",
+  "title": "Добавить организацию",
+  "prefix": "organisation",
+  "fields": {
+    "pseudoName": {
+      "type": "text",
+      "placeholder": "Псевдоним организации",
+      "helper": "Это поле видно только в вашей базе"
+    },
+    "organisationOfficialNameBlock": {
+      "type": "block",
+      "fields": {
+        "form": {
+          "type": "select",
+          "label": "Форма",
+          "values": "data('organisationForms', {value, label})",
+          "required": "true"
+        },
+        "officialName": {
+          "type": "text",
+          "placeholder": "Полное наименование",
+          "required": "true"
+        }
+      }
+    },
+    "id": {
+      "type": "text",
+      "placeholder": "УНП/ИНН",
+      "validation": "onlyNumbers"
+    },
+    "country": {
+      "type": "select",
+      "label": "Страна",
+      "values": "data('countries', {value: code, label: nameRus})"
+    },
+    "address": {
+      "type": "textarea",
+      "placeholder": "Адрес",
+      "label": "Адрес"
+    },
+    "ceoBlock": {
+      "type": "block",
+      "prefix": "ceo",
+      "fields": {
+        "position": {
+          "type": "text"
+        },
+        "positionGenitive": {
+          "type": "text",
+          "placeholder": "В родительном падеже"
+        },
+        "name": {
+          "type": "text",
+          "placeholder": "ФИО"
+        },
+        "nameGenitive": {
+          "type": "text",
+          "placeholder": "В родительном падеже"
+        },
+        "basisOfWork": {
+          "type": "text"
+        }
+      }
+    },
+    "accountsBlock": {
+      "type": "repeater",
+      "prefix": "account",
+      "fields": {
+        "currency": {
+          "type": "select",
+          "values": "data('currency', {value: code, label: nameRus})"
+        },
+        "value": {
+          "type": "textarea"
+        }
+      }
+    }
+  }
+}

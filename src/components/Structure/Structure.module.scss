@@ -1,0 +1,24 @@
+.Row{
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+
+  &.Bottom{
+    align-items: flex-end;
+  }
+}
+
+.Column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+
+  &.Left{
+    align-items: flex-start;
+  }
+}
+
+.LeftMargin{
+  margin-left: 10px;
+}

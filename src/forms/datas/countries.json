@@ -1,0 +1,20 @@
+[
+  {
+    "code": "BY",
+    "currency": "BYN",
+    "phoneCode": "375",
+    "nameRus": "Беларусь"
+  },
+  {
+    "code": "RU",
+    "currency": "RUB",
+    "phoneCode": "7",
+    "nameRus": "Россия"
+  },
+  {
+    "code": "UA",
+    "currency": "UAH",
+    "phoneCode": "38",
+    "nameRus": "Украина"
+  }
+]
