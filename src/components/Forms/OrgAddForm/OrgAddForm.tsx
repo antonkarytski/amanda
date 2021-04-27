@@ -1,16 +1,10 @@
 import React from "react";
 import cx from "classnames";
 import { useForm } from "react-hook-form";
-import currency from "../../../forms/datas/currency.json";
-import countries from "../../../forms/datas/countries.json";
-import organisationForms from "../../../forms/datas/organisationForms.json";
-import { camelCase } from "../../../utils/helpers/strings";
 import Repeater from "../../FormsBlocks/Repeater";
-import SelectField from "../../FormsBlocks/Select/SelectField";
 import TextField from "@material-ui/core/TextField";
 import structure from "../../Structure/Structure.module.scss";
 import formClasses from "../Forms.module.scss";
-import { generalCurrency } from "../../../forms/additionalListValues";
 import {
   P_ORG,
   P_ACCOUNT,
@@ -19,32 +13,31 @@ import {
 } from "../../../settings/dbPrefixes";
 import Row from "../../Structure/Row";
 import Column from "../../Structure/Column";
+import { useApi } from "../../../utils/hooks/hook.fetch";
+import { AMANDA_API } from "../../../settings/server";
+import CurrencySelect from "../../FormsBlocks/Select/CurrencySelect";
+import CountrySelect from "../../FormsBlocks/Select/CountrySelect";
+import OrgFormSelect from "../../FormsBlocks/Select/OrgFormSelect";
 
-type CustomerAddFormInterface = {
-  organisationName: string;
-  organisationOfficialName: string;
-};
+export default function OrgAddForm() {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+  const { request, response } = useApi(AMANDA_API);
 
-const ceoPrefix = camelCase(P_ORG, P_CEO);
-const accountPrefix = camelCase(P_ORG, P_ACCOUNT);
-const contactPrefix = camelCase(P_ORG, P_CONTACT);
-
-const currencyOptions = currency.map(({ nameRus, code }) => ({
-  value: code,
-  label: nameRus,
-}));
-currencyOptions.push(generalCurrency);
-
-const countriesOptions = countries.map(({ nameRus, code }) => ({
-  value: code,
-  label: nameRus,
-}));
-
-export default function CustomerAddForm() {
-  const { register, handleSubmit } = useForm();
-
-  function onSubmit(data: CustomerAddFormInterface) {
-    console.log(data);
+  async function onSubmit(data: any) {
+    console.log(JSON.stringify(data));
+    const res = await request(P_ORG, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(data),
+    });
+    console.log(res);
   }
 
   return (
@@ -55,45 +48,38 @@ export default function CustomerAddForm() {
             fullWidth
             label="Название"
             helperText="Только для внутренней идентификации"
-            {...register(camelCase(P_ORG, "pseudoName"))}
+            {...register(P_ORG`internalName`)}
           />
         </Row>
         <Row>
-          <SelectField
-            style={{ minWidth: "100px" }}
+          <OrgFormSelect
             label={"Организация:"}
-            options={organisationForms}
-            register={register(camelCase(P_ORG, "form"), { required: true })}
+            name={P_ORG`form`}
+            control={control}
+            style={{ minWidth: "100px" }}
           />
           <TextField
             fullWidth
             label="Официальное название"
-            {...register(camelCase(P_ORG, "officialName"), {
-              required: true,
-            })}
+            {...register(P_ORG`officialName`)}
           />
         </Row>
         <Row>
-          <TextField
-            fullWidth
-            label={"УНП/ИНН"}
-            {...register(camelCase(P_ORG, "id"))}
-          />
+          <TextField fullWidth label={"УНП/ИНН"} {...register(P_ORG`id`)} />
         </Row>
         <Column left>
-          <SelectField
+          <CountrySelect
+            label={""}
+            name={P_ORG`country`}
+            control={control}
             style={{ minWidth: "100px" }}
-            options={countriesOptions}
-            register={register(camelCase(P_ORG, "country"), {
-              required: true,
-            })}
           />
           <TextField
             label={"Адрес"}
             rows={4}
             multiline
             fullWidth
-            {...register(camelCase(P_ORG, "address"))}
+            {...register(P_ORG`address`)}
           />
         </Column>
         <Column left>
@@ -101,51 +87,51 @@ export default function CustomerAddForm() {
             <TextField
               className={formClasses.CeoAttr}
               label={"Должность"}
-              {...register(camelCase(ceoPrefix, "position"))}
+              {...register(P_CEO`position`)}
             />
             <TextField
               className={cx(structure.LeftMargin, formClasses.CeoAttr)}
               label={"Должность"}
               helperText="В родительном падеже"
-              {...register(camelCase(ceoPrefix, "positionGenitive"))}
+              {...register(P_CEO`positionGenitive`)}
             />
           </div>
           <div>
             <TextField
               className={formClasses.CeoAttr}
               label={"ФИО"}
-              {...register(camelCase(ceoPrefix, "name"))}
+              {...register(P_CEO`name`)}
             />
             <TextField
               className={cx(structure.LeftMargin, formClasses.CeoAttr)}
               label={"ФИО"}
               helperText="В родительном падеже"
-              {...register(camelCase(ceoPrefix, "nameGenitive"))}
+              {...register(P_CEO`nameGenitive`)}
             />
           </div>
           <TextField
             fullWidth
             label={"Основание действия"}
-            {...register(camelCase(ceoPrefix, "basisOfWork"))}
             helperText="В родительном падеже"
+            {...register(P_CEO`basisOfWork`)}
           />
         </Column>
         <Repeater>
           {() => {
             return (
               <Column left>
-                <SelectField
+                <CurrencySelect
+                  withDefault
+                  name={P_ACCOUNT`currency`}
                   style={{ minWidth: "250px" }}
-                  label={"Валюта"}
-                  options={currencyOptions}
-                  register={register(camelCase(accountPrefix, "currency"))}
+                  control={control}
                 />
                 <TextField
                   label="Реквизиты"
                   multiline
                   fullWidth
                   rows={6}
-                  {...register(camelCase(accountPrefix, "details"))}
+                  {...register(P_ACCOUNT`details`)}
                 />
               </Column>
             );

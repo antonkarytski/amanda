@@ -1,14 +1,12 @@
 import React from "react";
-import CustomerAddForm from "./components/Forms/CustomerAddForm/CustomerAddForm";
+import OrgAddForm from "./components/Forms/OrgAddForm/OrgAddForm";
 import classes from "./styles/App.module.scss";
 import "./styles/default-styles.scss";
 
-function App() {
+export default function App() {
   return (
     <div className={classes.App}>
-      <CustomerAddForm />
+      <OrgAddForm />
     </div>
   );
 }
-
-export default App;

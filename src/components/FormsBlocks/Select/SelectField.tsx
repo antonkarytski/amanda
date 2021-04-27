@@ -1,6 +1,5 @@
 import React from "react";
 import { SelectProps } from "../../_interfaces/Input";
-import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 
 export default function SelectField({
@@ -9,12 +8,19 @@ export default function SelectField({
   ...props
 }: SelectProps) {
   return (
-    <TextField select defaultValue={options[0].value} {...props} {...register}>
+    <TextField
+      select
+      SelectProps={{
+        native: true,
+      }}
+      {...props}
+      {...register}
+    >
       {options.map((option, index) => {
         return (
-          <MenuItem key={`${register.name}${index}`} value={option.value}>
+          <option key={`${register.name}${index}`} value={option.value}>
             {option.label}
-          </MenuItem>
+          </option>
         );
       })}
     </TextField>
