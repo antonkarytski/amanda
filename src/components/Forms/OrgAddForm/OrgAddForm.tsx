@@ -28,8 +28,7 @@ export default function OrgAddForm() {
   } = useForm();
   const { request, response } = useApi(AMANDA_API);
 
-  async function onSubmit(data: any) {
-    console.log(JSON.stringify(data));
+  async function submitHandler(data: any) {
     const res = await request(P_ORG, {
       method: "POST",
       headers: {
@@ -37,12 +36,11 @@ export default function OrgAddForm() {
       },
       body: JSON.stringify(data),
     });
-    console.log(res);
   }
 
   return (
     <div className={formClasses.CustomerAddForm}>
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <form onSubmit={handleSubmit(submitHandler)} autoComplete="off">
         <Row>
           <TextField
             fullWidth
@@ -65,7 +63,7 @@ export default function OrgAddForm() {
           />
         </Row>
         <Row>
-          <TextField fullWidth label={"УНП/ИНН"} {...register(P_ORG`id`)} />
+          <TextField fullWidth label={"УНП/ИНН"} {...register(P_ORG`orgId`)} />
         </Row>
         <Column left>
           <CountrySelect
@@ -87,39 +85,39 @@ export default function OrgAddForm() {
             <TextField
               className={formClasses.CeoAttr}
               label={"Должность"}
-              {...register(P_CEO`position`)}
+              {...register(P_CEO`position[0]`)}
             />
             <TextField
               className={cx(structure.LeftMargin, formClasses.CeoAttr)}
               label={"Должность"}
               helperText="В родительном падеже"
-              {...register(P_CEO`positionGenitive`)}
+              {...register(P_CEO`positionGenitive[0]`)}
             />
           </div>
           <div>
             <TextField
               className={formClasses.CeoAttr}
               label={"ФИО"}
-              {...register(P_CEO`name`)}
+              {...register(P_CEO`name[0]`)}
             />
             <TextField
               className={cx(structure.LeftMargin, formClasses.CeoAttr)}
               label={"ФИО"}
               helperText="В родительном падеже"
-              {...register(P_CEO`nameGenitive`)}
+              {...register(P_CEO`nameGenitive[0]`)}
             />
           </div>
           <TextField
             fullWidth
             label={"Основание действия"}
             helperText="В родительном падеже"
-            {...register(P_CEO`basisOfWork`)}
+            {...register(P_CEO`basisOfWork[0]`)}
           />
         </Column>
         <Repeater>
-          {() => {
+          {(index) => {
             return (
-              <Column left>
+              <Column key={`accountBlock${index}`} left>
                 <CurrencySelect
                   withDefault
                   name={P_ACCOUNT`currency`}
@@ -137,6 +135,9 @@ export default function OrgAddForm() {
             );
           }}
         </Repeater>
+        <br />
+
+        <button onClick={() => console.log(123213)}>Go</button>
         <input type={"submit"} />
       </form>
     </div>

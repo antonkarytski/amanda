@@ -1,6 +1,6 @@
 import React from "react";
 import { convertToOptions } from "../../../utils/helpers/listsConverter";
-import { SpecifiedSelectProps } from "../../_interfaces/Input";
+import { SpecifiedSelectProps } from "../_interfaces";
 import ControlledSelectField from "./ControlledSelectField";
 import countries from "../../../forms/datas/countries.json";
 

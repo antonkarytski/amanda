@@ -1,5 +1,5 @@
 import React from "react";
-import { SpecifiedSelectProps } from "../../_interfaces/Input";
+import { SpecifiedSelectProps } from "../_interfaces";
 import ControlledSelectField from "./ControlledSelectField";
 import organisationForms from "../../../forms/datas/organisationForms.json";
 

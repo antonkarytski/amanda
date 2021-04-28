@@ -1,7 +1,7 @@
 import React from "react";
 import { convertToOptions } from "../../../utils/helpers/listsConverter";
 import currency from "../../../forms/datas/currency.json";
-import { SpecifiedSelectProps } from "../../_interfaces/Input";
+import { SpecifiedSelectProps } from "../_interfaces";
 import { generalCurrency } from "../../../forms/additionalListValues";
 import ControlledSelectField from "./ControlledSelectField";
 

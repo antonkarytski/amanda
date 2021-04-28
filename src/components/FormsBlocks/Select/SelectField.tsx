@@ -1,5 +1,5 @@
 import React from "react";
-import { SelectProps } from "../../_interfaces/Input";
+import { SelectProps } from "../_interfaces";
 import TextField from "@material-ui/core/TextField";
 
 export default function SelectField({

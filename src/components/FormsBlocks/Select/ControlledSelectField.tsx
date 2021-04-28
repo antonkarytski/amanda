@@ -1,7 +1,7 @@
 import React from "react";
 import SelectField from "./SelectField";
 import { Controller } from "react-hook-form";
-import { ControlledSelectProps } from "../../_interfaces/Input";
+import { ControlledSelectProps } from "../_interfaces";
 
 export default function ControlledSelectField({
   name,
