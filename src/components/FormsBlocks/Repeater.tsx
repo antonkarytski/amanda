@@ -29,7 +29,9 @@ export default function Repeater({
       {indexes.map((el, index) => {
         return childrenFactory(index);
       })}
+
       <Button
+        type={"button"}
         label={buttonLabel ?? "Добавить"}
         onClick={addElement}
         disabled={disableExtendability}

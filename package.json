@@ -9,6 +9,7 @@
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "classnames": "^2.3.1",
+    "lodash": "^4.17.21",
     "nano-id": "^1.1.0",
     "node-sass": "^5.0.0",
     "react": "^17.0.2",
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.6",
+    "@types/lodash": "^4.14.168",
     "jest-dom": "^4.0.0",
     "react-test-render": "^1.1.2"
   }

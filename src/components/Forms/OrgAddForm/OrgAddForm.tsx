@@ -7,9 +7,9 @@ import structure from "../../Structure/Structure.module.scss";
 import formClasses from "../Forms.module.scss";
 import {
   P_ORG,
-  P_ACCOUNT,
-  P_CEO,
-  P_CONTACT,
+  P_ACCOUNTS,
+  P_CEOS,
+  P_CONTACTS,
 } from "../../../settings/dbPrefixes";
 import Row from "../../Structure/Row";
 import Column from "../../Structure/Column";
@@ -24,12 +24,12 @@ export default function OrgAddForm() {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    //formState: { errors },
   } = useForm();
   const { request, response } = useApi(AMANDA_API);
 
   async function submitHandler(data: any) {
-    const res = await request(P_ORG, {
+    await request(P_ORG, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -38,6 +38,7 @@ export default function OrgAddForm() {
     });
   }
 
+  console.log(response);
   return (
     <div className={formClasses.CustomerAddForm}>
       <form onSubmit={handleSubmit(submitHandler)} autoComplete="off">
@@ -46,38 +47,38 @@ export default function OrgAddForm() {
             fullWidth
             label="Название"
             helperText="Только для внутренней идентификации"
-            {...register(P_ORG`internalName`)}
+            {...register("internalName")}
           />
         </Row>
         <Row>
           <OrgFormSelect
             label={"Организация:"}
-            name={P_ORG`form`}
+            name={"form"}
             control={control}
             style={{ minWidth: "100px" }}
           />
           <TextField
             fullWidth
             label="Официальное название"
-            {...register(P_ORG`officialName`)}
+            {...register("officialName")}
           />
         </Row>
         <Row>
-          <TextField fullWidth label={"УНП/ИНН"} {...register(P_ORG`orgId`)} />
+          <TextField fullWidth label={"УНП/ИНН"} {...register("orgId")} />
         </Row>
         <Column left>
           <CountrySelect
             label={""}
-            name={P_ORG`country`}
             control={control}
             style={{ minWidth: "100px" }}
+            name={"country"}
           />
           <TextField
             label={"Адрес"}
             rows={4}
             multiline
             fullWidth
-            {...register(P_ORG`address`)}
+            {...register("address")}
           />
         </Column>
         <Column left>
@@ -85,33 +86,33 @@ export default function OrgAddForm() {
             <TextField
               className={formClasses.CeoAttr}
               label={"Должность"}
-              {...register(P_CEO`position[0]`)}
+              {...register(P_CEOS`[0].position`)}
             />
             <TextField
               className={cx(structure.LeftMargin, formClasses.CeoAttr)}
               label={"Должность"}
               helperText="В родительном падеже"
-              {...register(P_CEO`positionGenitive[0]`)}
+              {...register(P_CEOS`[0].positionGenitive`)}
             />
           </div>
           <div>
             <TextField
               className={formClasses.CeoAttr}
               label={"ФИО"}
-              {...register(P_CEO`name[0]`)}
+              {...register(P_CEOS`[0].name`)}
             />
             <TextField
               className={cx(structure.LeftMargin, formClasses.CeoAttr)}
               label={"ФИО"}
               helperText="В родительном падеже"
-              {...register(P_CEO`nameGenitive[0]`)}
+              {...register(P_CEOS`[0].nameGenitive`)}
             />
           </div>
           <TextField
             fullWidth
             label={"Основание действия"}
             helperText="В родительном падеже"
-            {...register(P_CEO`basisOfWork[0]`)}
+            {...register(P_CEOS`[0].basisOfWork`)}
           />
         </Column>
         <Repeater>
@@ -120,7 +121,7 @@ export default function OrgAddForm() {
               <Column key={`accountBlock${index}`} left>
                 <CurrencySelect
                   withDefault
-                  name={P_ACCOUNT`currency`}
+                  name={P_ACCOUNTS`[${index}].currency`}
                   style={{ minWidth: "250px" }}
                   control={control}
                 />
@@ -129,15 +130,30 @@ export default function OrgAddForm() {
                   multiline
                   fullWidth
                   rows={6}
-                  {...register(P_ACCOUNT`details`)}
+                  {...register(P_ACCOUNTS`[${index}].details`)}
                 />
               </Column>
             );
           }}
         </Repeater>
-        <br />
-
-        <button onClick={() => console.log(123213)}>Go</button>
+        <Repeater>
+          {(index) => {
+            return (
+              <Row key={`contactBlock${index}`}>
+                <TextField
+                  label="Имя"
+                  style={{ minWidth: "200px" }}
+                  {...register(P_CONTACTS`[${index}].name`)}
+                />
+                <TextField
+                  label="Телефон/Email"
+                  fullWidth
+                  {...register(P_CONTACTS`[${index}].generalValue`)}
+                />
+              </Row>
+            );
+          }}
+        </Repeater>
         <input type={"submit"} />
       </form>
     </div>
