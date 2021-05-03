@@ -18,6 +18,8 @@ import { AMANDA_API } from "../../../settings/server";
 import CurrencySelect from "../../FormsBlocks/Select/CurrencySelect";
 import CountrySelect from "../../FormsBlocks/Select/CountrySelect";
 import OrgFormSelect from "../../FormsBlocks/Select/OrgFormSelect";
+import Tabs from "../../Tabs/Tabs";
+import TabPanel from "../../Tabs/TabPanel";
 
 export default function OrgAddForm() {
   const {
@@ -38,122 +40,131 @@ export default function OrgAddForm() {
     });
   }
 
-  console.log(response);
   return (
     <div className={formClasses.CustomerAddForm}>
       <form onSubmit={handleSubmit(submitHandler)} autoComplete="off">
-        <Row>
-          <TextField
-            fullWidth
-            label="Название"
-            helperText="Только для внутренней идентификации"
-            {...register("internalName")}
-          />
-        </Row>
-        <Row>
-          <OrgFormSelect
-            label={"Организация:"}
-            name={"form"}
-            control={control}
-            style={{ minWidth: "100px" }}
-          />
-          <TextField
-            fullWidth
-            label="Официальное название"
-            {...register("officialName")}
-          />
-        </Row>
-        <Row>
-          <TextField fullWidth label={"УНП/ИНН"} {...register("orgId")} />
-        </Row>
-        <Column left>
-          <CountrySelect
-            label={""}
-            control={control}
-            style={{ minWidth: "100px" }}
-            name={"country"}
-          />
-          <TextField
-            label={"Адрес"}
-            rows={4}
-            multiline
-            fullWidth
-            {...register("address")}
-          />
-        </Column>
-        <Column left>
-          <div>
-            <TextField
-              className={formClasses.CeoAttr}
-              label={"Должность"}
-              {...register(P_CEOS`[0].position`)}
-            />
-            <TextField
-              className={cx(structure.LeftMargin, formClasses.CeoAttr)}
-              label={"Должность"}
-              helperText="В родительном падеже"
-              {...register(P_CEOS`[0].positionGenitive`)}
-            />
-          </div>
-          <div>
-            <TextField
-              className={formClasses.CeoAttr}
-              label={"ФИО"}
-              {...register(P_CEOS`[0].name`)}
-            />
-            <TextField
-              className={cx(structure.LeftMargin, formClasses.CeoAttr)}
-              label={"ФИО"}
-              helperText="В родительном падеже"
-              {...register(P_CEOS`[0].nameGenitive`)}
-            />
-          </div>
-          <TextField
-            fullWidth
-            label={"Основание действия"}
-            helperText="В родительном падеже"
-            {...register(P_CEOS`[0].basisOfWork`)}
-          />
-        </Column>
-        <Repeater>
-          {(index) => {
-            return (
-              <Column key={`accountBlock${index}`} left>
-                <CurrencySelect
-                  withDefault
-                  name={P_ACCOUNTS`[${index}].currency`}
-                  style={{ minWidth: "250px" }}
-                  control={control}
+        <Tabs>
+          <TabPanel label={"Данные организации"}>
+            <Row>
+              <TextField
+                fullWidth
+                label="Название"
+                helperText="Только для внутренней идентификации"
+                {...register("internalName")}
+              />
+            </Row>
+            <Row>
+              <OrgFormSelect
+                label={"Организация:"}
+                name={"form"}
+                control={control}
+                style={{ minWidth: "100px" }}
+              />
+              <TextField
+                fullWidth
+                label="Официальное название"
+                {...register("officialName")}
+              />
+            </Row>
+            <Row>
+              <TextField fullWidth label={"УНП/ИНН"} {...register("orgId")} />
+            </Row>
+            <Column left>
+              <CountrySelect
+                label={""}
+                control={control}
+                style={{ minWidth: "100px" }}
+                name={"country"}
+              />
+              <TextField
+                label={"Адрес"}
+                rows={4}
+                multiline
+                fullWidth
+                {...register("address")}
+              />
+            </Column>
+          </TabPanel>
+          <TabPanel label={"Руководитель"}>
+            <Column left>
+              <div>
+                <TextField
+                  className={formClasses.CeoAttr}
+                  label={"Должность"}
+                  {...register(P_CEOS`[0].position`)}
                 />
                 <TextField
-                  label="Реквизиты"
-                  multiline
-                  fullWidth
-                  rows={6}
-                  {...register(P_ACCOUNTS`[${index}].details`)}
+                  className={cx(structure.LeftMargin, formClasses.CeoAttr)}
+                  label={"Должность"}
+                  helperText="В родительном падеже"
+                  {...register(P_CEOS`[0].positionGenitive`)}
                 />
-              </Column>
-            );
-          }}
-        </Repeater>
-        <Repeater>
-          {(index) => {
-            return (
-              <Row key={`contactBlock${index}`}>
+              </div>
+              <div>
                 <TextField
-                  label="Имя"
-                  style={{ minWidth: "200px" }}
-                  {...register(P_CONTACTS`[${index}].name`)}
+                  className={formClasses.CeoAttr}
+                  label={"ФИО"}
+                  {...register(P_CEOS`[0].name`)}
                 />
                 <TextField
-                  label="Телефон/Email"
-                  fullWidth
-                  {...register(P_CONTACTS`[${index}].generalValue`)}
+                  className={cx(structure.LeftMargin, formClasses.CeoAttr)}
+                  label={"ФИО"}
+                  helperText="В родительном падеже"
+                  {...register(P_CEOS`[0].nameGenitive`)}
                 />
-              </Row>
-            );
-          }}
-        </Repeater>
+              </div>
+              <TextField
+                fullWidth
+                label={"Основание действия"}
+                helperText="В родительном падеже"
+                {...register(P_CEOS`[0].basisOfWork`)}
+              />
+            </Column>
+          </TabPanel>
+          <TabPanel label={"Счета"}>
+            <Repeater>
+              {(index) => {
+                return (
+                  <Column key={`accountBlock${index}`} left>
+                    <CurrencySelect
+                      withDefault
+                      name={P_ACCOUNTS`[${index}].currency`}
+                      style={{ minWidth: "250px" }}
+                      control={control}
+                    />
+                    <TextField
+                      label="Реквизиты"
+                      multiline
+                      fullWidth
+                      rows={6}
+                      {...register(P_ACCOUNTS`[${index}].details`)}
+                    />
+                  </Column>
+                );
+              }}
+            </Repeater>
+          </TabPanel>
+          <TabPanel label={"Контакты"}>
+            <Repeater>
+              {(index) => {
+                return (
+                  <Row key={`contactBlock${index}`}>
+                    <TextField
+                      label="Имя"
+                      style={{ minWidth: "200px" }}
+                      {...register(P_CONTACTS`[${index}].name`)}
+                    />
+                    <TextField
+                      label="Телефон/Email"
+                      fullWidth
+                      {...register(P_CONTACTS`[${index}].generalValue`)}
+                    />
+                  </Row>
+                );
+              }}
+            </Repeater>
+          </TabPanel>
+        </Tabs>
         <input type={"submit"} />
       </form>
     </div>
