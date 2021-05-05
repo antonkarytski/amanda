@@ -1,7 +1,8 @@
 import { _Props } from "../_interfaces/_Props";
+import { UseFormRegister, ValidationRule } from "react-hook-form";
 
 export interface InputProps extends _Props {
-  register: any;
+  register: UseFormRegister<any>;
   label?: string;
 }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import cx from "classnames";
-import { StructProps } from "./_interface";
+import { StructProps } from "./_interfaces";
 import classes from "./Structure.module.scss";
 
 export default function Row({

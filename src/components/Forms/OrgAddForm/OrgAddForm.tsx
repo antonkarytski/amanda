@@ -5,12 +5,7 @@ import Repeater from "../../FormsBlocks/Repeater";
 import TextField from "@material-ui/core/TextField";
 import structure from "../../Structure/Structure.module.scss";
 import formClasses from "../Forms.module.scss";
-import {
-  P_ORG,
-  P_ACCOUNTS,
-  P_CEOS,
-  P_CONTACTS,
-} from "../../../settings/dbPrefixes";
+import { P_ORG, P_ACCOUNTS, P_CEOS } from "../../../settings/dbPrefixes";
 import Row from "../../Structure/Row";
 import Column from "../../Structure/Column";
 import { useApi } from "../../../utils/hooks/hook.fetch";
@@ -20,6 +15,8 @@ import CountrySelect from "../../FormsBlocks/Select/CountrySelect";
 import OrgFormSelect from "../../FormsBlocks/Select/OrgFormSelect";
 import Tabs from "../../Tabs/Tabs";
 import TabPanel from "../../Tabs/TabPanel";
+import ContactModule from "../../FormsModules/ContactModule";
+//import AccountModule from "../../FormsModules/AccountModule";
 
 export default function OrgAddForm() {
   const {
@@ -146,22 +143,7 @@ export default function OrgAddForm() {
           </TabPanel>
           <TabPanel label={"Контакты"}>
             <Repeater>
-              {(index) => {
-                return (
-                  <Row key={`contactBlock${index}`}>
-                    <TextField
-                      label="Имя"
-                      style={{ minWidth: "200px" }}
-                      {...register(P_CONTACTS`[${index}].name`)}
-                    />
-                    <TextField
-                      label="Телефон/Email"
-                      fullWidth
-                      {...register(P_CONTACTS`[${index}].generalValue`)}
-                    />
-                  </Row>
-                );
-              }}
+              {(index) => <ContactModule register={register} index={index} />}
             </Repeater>
           </TabPanel>
         </Tabs>

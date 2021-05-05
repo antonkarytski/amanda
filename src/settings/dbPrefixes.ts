@@ -1,6 +1,6 @@
 export type Prefix = (
   strings: TemplateStringsArray,
-  keys?: string | number
+  ...keys: (string | number)[]
 ) => string;
 
 const generatePrefix = (prefix: string): Prefix => {
